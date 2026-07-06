@@ -73,7 +73,7 @@ Aplikasi ini dirancang untuk membantu proses pengelolaan parkir kendaraan secara
 ```
 Parkir-Tunai/
 
-│── main.py
+│── AppParkir-1.py
 │── README.md
 │── images/
 │     ├── dashboard.png
