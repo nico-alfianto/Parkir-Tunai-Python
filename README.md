@@ -18,7 +18,7 @@ Aplikasi ini dirancang untuk membantu proses pengelolaan parkir kendaraan secara
 
 > Tambahkan screenshot menu utama di bawah ini.
 
-![Dashboard](images/dashboard.png)
+![Dashboard](images/dashboard.jpg)
 
 ---
 
@@ -26,7 +26,7 @@ Aplikasi ini dirancang untuk membantu proses pengelolaan parkir kendaraan secara
 
 > Tambahkan screenshot daftar kendaraan.
 
-![Daftar Kendaraan](images/daftar_kendaraan.png)
+![Daftar Kendaraan](images/daftar_kendaraan.jpg)
 
 ---
 
@@ -34,7 +34,7 @@ Aplikasi ini dirancang untuk membantu proses pengelolaan parkir kendaraan secara
 
 > Tambahkan screenshot kendaraan keluar.
 
-![Kendaraan Keluar](images/kendaraan_keluar.png)
+![Kendaraan Keluar](images/kendaraan_keluar.jpg)
 
 ---
 
@@ -42,7 +42,7 @@ Aplikasi ini dirancang untuk membantu proses pengelolaan parkir kendaraan secara
 
 > Tambahkan screenshot laporan parkir.
 
-![Laporan](images/laporan.png)
+![Laporan](images/laporan.jpg)
 
 ---
 
@@ -76,10 +76,10 @@ Parkir-Tunai/
 │── AppParkir-1.py
 │── README.md
 │── images/
-│     ├── dashboard.png
-│     ├── daftar_kendaraan.png
-│     ├── kendaraan_keluar.png
-│     └── laporan.png
+│     ├── dashboard.jpg
+│     ├── daftar_kendaraan.jpg
+│     ├── kendaraan_keluar.jpg
+│     └── laporan.jpg
 ```
 
 ---
