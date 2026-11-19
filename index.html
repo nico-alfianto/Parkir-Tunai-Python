@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cash Parking Management System | Python CLI | Nico Alfianto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0A0A0B;--card:#131315;--card2:#1A1A1D;--border:#232326;--text:#F4F4F5;--muted:#A1A1AA;--muted2:#71717A;--pill:#1E1E21}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+header{padding:48px 0 32px;border-bottom:1px solid var(--border)}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);font-weight:600;margin-bottom:16px}
+.eyebrow span{color:var(--text)}
+h1{font-size:42px;line-height:.95;letter-spacing:-.04em;font-weight:800}
+h1 em{font-style:normal;color:var(--muted)}
+.header-desc{max-width:560px;color:var(--muted);font-size:16px;margin-top:18px;line-height:1.7}
+.header-right{text-align:right}
+.header-right strong{display:block;font-size:15px}
+.header-right p{color:var(--muted);font-size:14px;margin-top:4px}
+.header-right .actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
+.btn-white{display:inline-block;background:#fff;color:#000;font-size:14px;font-weight:600;padding:11px 18px;border-radius:999px}
+.btn-outline{display:inline-block;background:transparent;color:#fff;border:1px solid #3F3F46;font-size:14px;font-weight:600;padding:11px 18px;border-radius:999px}
+main{padding:32px 0 80px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:20px}
+.card h3{font-size:18px;margin-bottom:6px}
+.card p.sub{font-size:14px;color:var(--muted);margin-bottom:18px;line-height:1.7}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{background:var(--card2);border:1px solid var(--border);border-radius:16px;padding:20px}
+.kpi span{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);font-weight:600}
+.kpi b{display:block;font-size:28px;letter-spacing:-.03em;margin:8px 0 4px}
+.kpi small{font-size:13px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.image-wrapper{width:100%;height:320px;background:#0A0A0B;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:zoom-in}
+.image-wrapper img{width:100%;height:100%;object-fit:contain}
+.image-wrapper.tall{height:380px}
+.insight{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px;font-size:14px;line-height:1.7;color:var(--muted)}
+.insight b{color:#fff}
+.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px}
+.table th{text-align:left;padding:12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.table td{padding:12px;border-bottom:1px solid var(--border);line-height:1.6;vertical-align:top}
+.pg-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:20px}
+.pg-step{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px}
+.pg-step span{font-size:12px;color:var(--muted2);font-weight:600;letter-spacing:.08em}
+.pg-step b{display:block;font-size:14px;margin:6px 0 4px}
+.pg-step p{font-size:13px;color:var(--muted);line-height:1.6}
+.pg-preset{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.pg-preset button{font-family:inherit;background:transparent;border:1px solid #3F3F46;color:var(--text);padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer}
+.pg-preset button.active{background:#fff;color:#000;border-color:#fff}
+.pg-grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px;align-items:start}
+.pg-seg{display:flex;gap:8px;flex-wrap:wrap}
+.pg-seg button{font-family:inherit;background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer}
+.pg-seg button.on{background:#fff;color:#000;border-color:#fff}
+.pg-big{font-size:42px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.pg-badge{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px;white-space:nowrap}
+.pg-badge.green{background:#052E16;color:#86EFAC;border:1px solid #166534}
+.pg-badge.yellow{background:#422006;color:#FDE68A;border:1px solid #92400E}
+.pg-contrib,.pg-action{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:12px}
+.pg-meta{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;font-size:12px;color:var(--muted2);line-height:1.7}
+.pg-meta b{color:var(--text)}
+select,input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#0A0A0B;color:var(--text);font-family:inherit;font-size:14px;margin-top:8px}
+label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);font-weight:600}
+.terminal{background:#0A0A0B;border:1px solid var(--border);border-radius:14px;padding:16px;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.8;color:#D4D4D8;white-space:pre-wrap;word-break:break-word}
+.terminal b{color:#fff}
+pre{background:#0A0A0B;border:1px solid var(--border);border-radius:12px;padding:16px;font-size:13px;line-height:1.7;color:#D4D4D8;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,Menlo,monospace;margin-top:10px}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);justify-content:center;align-items:center;z-index:9999}
+.modal.active{display:flex}
+.modal img{max-width:92%;max-height:88%;border-radius:12px}
+.modal-close{position:absolute;top:20px;right:30px;font-size:40px;color:#fff;cursor:pointer}
+footer{border-top:1px solid var(--border);padding:28px 0 40px;color:var(--muted2);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:900px){h1{font-size:34px}.kpi-grid{grid-template-columns:1fr 1fr}.grid2,.pg-grid2,.pg-steps{grid-template-columns:1fr}.header-right{text-align:left}.header-right .actions{justify-content:flex-start}.image-wrapper,.image-wrapper.tall{height:260px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="top"><div>
+<div class="eyebrow">Python CLI App <span>— PrettyTable • Cash Only • 2024</span></div>
+<h1>Cash Parking<br><em>Management System</em></h1>
+<p class="header-desc">Command Line Interface app in Python to manage parking — vehicle entry, vehicle exit, automatic fee calculation, vehicle list, and daily report. Simple, but complete.</p>
+<p style="font-size:13px;color:var(--muted2);margin-top:12px;">Python • CLI • 2024</p>
+</div><div class="header-right"><strong>Nico Alfianto</strong><p>Bogor, Indonesia</p><div class="actions"><a class="btn-white" href="https://nico-myproject.github.io">Back to Portfolio</a><a class="btn-outline" href="#parking-simulator">Try Simulator</a></div></div></div></div></header>
+<main class="wrap">
+<div class="kpi-grid" style="margin-bottom:20px;">
+<div class="kpi"><span>Payment</span><b>Cash Only</b><small>No digital payment</small></div>
+<div class="kpi"><span>Interface</span><b>CLI App</b><small>Terminal-based</small></div>
+<div class="kpi"><span>Language</span><b>Python</b><small>Python 3.x</small></div>
+<div class="kpi"><span>Table</span><b>PrettyTable</b><small>Clean terminal tables</small></div>
+</div>
+<div class="card"><h3>Project Overview</h3><p style="font-size:14px;color:var(--muted);line-height:1.8;">Cash Parking Management System is a Command Line Interface app built in Python to help manage vehicle parking simply — from recording vehicle entry, vehicle exit, automatic parking fee calculation, to daily parking report. Built as a learning project to understand programming fundamentals before moving to GUI and Web apps.</p></div>
+<!-- PLAYGROUND -->
+<div class="card" id="parking-simulator">
+<div class="eyebrow" style="margin-bottom:10px;">Interactive Playground <span>— CLI Simulator</span></div>
+<h2 style="font-size:28px;">Try The Parking Flow</h2>
+<p class="sub" style="max-width:720px;">This simulates the exact flow of AppParkir-1.py — Entry → List → Exit → Report. Pick a vehicle, enter plate + times, then see fee + receipt + daily report update. Demo rates below are for simulation — check AppParkir-1.py for the exact rates in the repo.</p>
+<div class="pg-steps">
+<div class="pg-step"><span>STEP 01</span><b>Vehicle Entry</b><p>Add plate, type, entry time. Vehicle goes to Active List.</p></div>
+<div class="pg-step"><span>STEP 02</span><b>Vehicle Exit</b><p>Pick exit time. Fee is calculated automatically.</p></div>
+<div class="pg-step"><span>STEP 03</span><b>Daily Report</b><p>Exited vehicles + total cash appear in Report.</p></div>
+</div>
+<div class="pg-preset" id="pgPreset">
+<button onclick="setPresetPG(0,this)" class="active">Motor — 2 Hours</button>
+<button onclick="setPresetPG(1,this)">Car — 5 Hours</button>
+<button onclick="setPresetPG(2,this)">Motor — Overnight</button>
+</div>
+<div class="pg-grid2">
+<div>
+<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:600;">1. Vehicle Entry</div>
+<div style="margin-top:12px;"><label>Vehicle Type</label><select id="pgType" onchange="runPG()"><option value="motor">Motor — Rp 2,000 / hour</option><option value="car">Mobil / Car — Rp 5,000 / hour</option></select></div>
+<div style="margin-top:12px;"><label>Plate Number</label><input id="pgPlate" value="B 1234 XYZ" oninput="runPG()"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;"><div><label>Entry Time</label><input type="time" id="pgIn" value="08:00" onchange="runPG()"></div><div><label>Exit Time</label><input type="time" id="pgOut" value="10:00" onchange="runPG()"></div></div>
+<button onclick="addVehiclePG()" class="btn-white" style="margin-top:14px;border:none;cursor:pointer;font-family:inherit;">Add Vehicle + Calculate Fee</button>
+<div class="pg-action"><div style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">Terminal Preview</div><div class="terminal" id="pgTerminal" style="margin-top:10px;">=== SISTEM PARKIR TUNAI ===
+1. Kendaraan Masuk
+2. Daftar Kendaraan
+3. Kendaraan Keluar
+4. Daftar Kendaraan Keluar
+5. Laporan Parkir</div></div>
+</div>
+<div>
+<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);font-weight:600;">2. Receipt — Fee Calculation</div>
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-top:10px;gap:12px;">
+<div><div class="pg-big" id="pgFee">Rp 4,000</div><div style="font-size:14px;color:var(--muted);margin-top:6px;" id="pgSubtitle">Motor • 2 hours • Cash Only</div></div>
+<span class="pg-badge yellow" id="pgBadge">ACTIVE</span>
+</div>
+<div class="pg-contrib"><div style="font-size:13px;font-weight:700;margin-bottom:6px;">Calculation</div><div id="pgCalc" style="font-size:14px;line-height:1.7;color:var(--muted);"></div></div>
+<div class="pg-contrib"><div style="font-size:13px;font-weight:700;margin-bottom:6px;">Active Vehicles (Daftar Kendaraan)</div><div style="overflow-x:auto;"><table class="table"><thead><tr><th>Plate</th><th>Type</th><th>Entry</th><th>Exit</th><th>Fee</th></tr></thead><tbody id="pgBody"></tbody></table></div></div>
+<div class="pg-contrib"><div style="font-size:13px;font-weight:700;margin-bottom:6px;">Daily Report (Laporan Parkir)</div><div id="pgReport" style="font-size:14px;line-height:1.7;color:var(--muted);"></div></div>
+<button onclick="resetPG()" class="btn-white" style="margin-top:12px;border:none;cursor:pointer;font-family:inherit;background:transparent;color:#fff;border:1px solid #3F3F46;">Reset Simulator</button>
+</div>
+</div>
+<div class="pg-meta"><div><b>File:</b> AppParkir-1.py</div><div><b>Library:</b> PrettyTable</div><div><b>Payment:</b> Cash Only</div><div><b>Note:</b> Simulator for demo. Exact fee logic lives in AppParkir-1.py.</div></div>
+</div>
+
+<!-- FEATURES + FLOW -->
+<div class="grid2">
+<div class="card"><h3>Features</h3><p class="sub">What the CLI app does.</p><p style="font-size:14px;color:var(--muted);line-height:1.9;">Add vehicle entry<br>Vehicle exit<br>Automatic fee calculation<br>Active vehicle list<br>Exited vehicle list<br>Daily parking report<br>PrettyTable for clean tables<br>Cash Only payment<br>User input validation</p></div>
+<div class="card"><h3>Program Flow</h3><p class="sub">How it runs.</p><p style="font-size:14px;color:var(--muted);line-height:2;"><b style="color:#fff;">1. Dashboard</b> — Main menu<br><b style="color:#fff;">2. Vehicle Entry</b> — Record plate + type + time<br><b style="color:#fff;">3. Vehicle List</b> — Show active vehicles<br><b style="color:#fff;">4. Vehicle Exit</b> — Calculate fee, mark exited<br><b style="color:#fff;">5. Exited List</b> — Show exited vehicles<br><b style="color:#fff;">6. Daily Report</b> — Total vehicles + total cash</p></div>
+</div>
+
+<!-- SCREENSHOTS -->
+<div class="card"><h3>Program Screenshots — Real CLI</h3><p class="sub">Real terminal screenshots from the repo. Click to zoom.</p><div class="grid2">
+<div><h3 style="margin-bottom:10px;">Dashboard / Main Menu</h3><div class="image-wrapper" onclick="openModal('images/dashboard.jpg')"><img src="images/dashboard.jpg" alt="Dashboard" loading="lazy"></div><div class="insight"><b>What it shows:</b> Main menu — Entry, List, Exit, Report.</div></div>
+<div><h3 style="margin-bottom:10px;">Vehicle List</h3><div class="image-wrapper" onclick="openModal('images/daftar_kendaraan.jpg')"><img src="images/daftar_kendaraan.jpg" alt="Daftar Kendaraan" loading="lazy"></div><div class="insight"><b>What it shows:</b> Active vehicles in PrettyTable format.</div></div>
+<div><h3 style="margin-bottom:10px;">Vehicle Exit</h3><div class="image-wrapper" onclick="openModal('images/kendaraan_keluar.jpg')"><img src="images/kendaraan_keluar.jpg" alt="Kendaraan Keluar" loading="lazy"></div><div class="insight"><b>What it shows:</b> Exit flow + automatic fee calculation.</div></div>
+<div><h3 style="margin-bottom:10px;">Daily Report</h3><div class="image-wrapper" onclick="openModal('images/laporan.jpg')"><img src="images/laporan.jpg" alt="Laporan" loading="lazy"></div><div class="insight"><b>What it shows:</b> Daily report — total vehicles + total cash.</div></div>
+</div></div>
+
+<!-- CONCEPTS + RUN -->
+<div class="grid2">
+<div class="card"><h3>Programming Concepts Used</h3><p class="sub">Fundamentals applied.</p><p style="font-size:14px;color:var(--muted);line-height:1.9;">Function — Modular Programming<br>List & Dictionary — Data storage<br>Looping & If-Else branching<br>Input & Output<br>Exception Handling<br>PrettyTable for table display</p><div class="insight" style="margin-top:12px;"><b>What I learned:</b> Design flow before coding, build terminal app, manage data with List, make interactive menu, calculate fee by vehicle category, display data in tables.</div></div>
+<div class="card"><h3>How to Run</h3><p class="sub">Run the real Python app.</p><pre>git clone https://github.com/nico-alfianto/Parkir-Tunai-Python.git
+cd Parkir-Tunai-Python
+pip install prettytable
+python AppParkir-1.py</pre><p style="font-size:13px;color:var(--muted);margin-top:12px;">Tools: Python 3.x • Visual Studio Code • PrettyTable • CLI</p><pre>Parkir-Tunai/
+├── AppParkir-1.py
+├── README.md
+└── images/
+    ├── dashboard.jpg
+    ├── daftar_kendaraan.jpg
+    ├── kendaraan_keluar.jpg
+    └── laporan.jpg</pre></div>
+</div>
+
+<!-- TEAM -->
+<div class="card"><h3>Development Team</h3><p class="sub">2024 • Python • CLI</p><p style="font-size:14px;color:var(--muted);line-height:1.9;">Muhammad Ikhsan Basuki<br>Awaludin Al Ayubi<br>Marcho Dominggus Deviano Timisela<br>Nico Alfianto<br>Rafli Ramadhan</p></div>
+
+</main>
+<footer><div class="wrap"><span>© 2026 Nico Alfianto — Cash Parking Management System. Python • 2024</span><span><a href="https://nico-myproject.github.io">Portfolio</a></span></div></footer>
+<div class="modal" id="imageModal" onclick="closeModal()"><span class="modal-close">&times;</span><img id="modalImg" src="" alt="Full View"></div>
+<script>
+function openModal(src){document.getElementById('modalImg').src=src;document.getElementById('imageModal').classList.add('active');}
+function closeModal(){document.getElementById('imageModal').classList.remove('active');}
+var vehicles=[];
+var PRESETS=[{type:'motor',plate:'B 1234 XYZ',in:'08:00',out:'10:00'},{type:'car',plate:'B 5678 ABC',in:'09:00',out:'14:00'},{type:'motor',plate:'B 9999 QW',in:'20:00',out:'08:00'}];
+function fmt(n){return 'Rp '+n.toLocaleString('id-ID');}
+function toMin(t){var p=t.split(':');return parseInt(p[0])*60+parseInt(p[1]);}
+function calcFee(type,hours){var rate=type==='motor'?2000:5000;return Math.max(1,Math.ceil(hours))*rate;}
+function setPresetPG(i,btn){var b=document.querySelectorAll('#pgPreset button');for(var j=0;j<b.length;j++)b[j].classList.remove('active');if(btn)btn.classList.add('active');var p=PRESETS[i];document.getElementById('pgType').value=p.type;document.getElementById('pgPlate').value=p.plate;document.getElementById('pgIn').value=p.in;document.getElementById('pgOut').value=p.out;runPG();}
+function runPG(){
+var type=document.getElementById('pgType').value;
+var plate=document.getElementById('pgPlate').value||'—';
+var tin=document.getElementById('pgIn').value||'08:00';
+var tout=document.getElementById('pgOut').value||'10:00';
+var mins=toMin(tout)-toMin(tin);if(mins<=0)mins+=24*60;
+var hours=mins/60;var fee=calcFee(type,hours);
+var label=type==='motor'?'Motor':'Mobil / Car';
+document.getElementById('pgFee').textContent=fmt(fee);
+document.getElementById('pgSubtitle').textContent=label+' • '+hours.toFixed(1).replace('.0','')+' hours • Cash Only';
+document.getElementById('pgCalc').innerHTML='Plate: <b style="color:#fff;">'+plate+'</b><br>Entry: '+tin+' → Exit: '+tout+'<br>Duration: '+hours.toFixed(1).replace('.0','')+' hours (rounded up: '+Math.max(1,Math.ceil(hours))+'h)<br>Rate: '+(type==='motor'?'Rp 2,000 / hour':'Rp 5,000 / hour')+'<br>Fee: <b style="color:#fff;">'+fmt(fee)+'</b> — Cash Only';
+document.getElementById('pgTerminal').innerHTML='=== SISTEM PARKIR TUNAI ===\n1. Kendaraan Masuk\n2. Daftar Kendaraan\n3. Kendaraan Keluar\n4. Daftar Kendaraan Keluar\n5. Laporan Parkir\n\n> Input: '+plate+' | '+label+'\n> Masuk: '+tin+' | Keluar: '+tout+'\n> Biaya: '+fmt(fee)+' | Cash Only';
+}
+function addVehiclePG(){
+var type=document.getElementById('pgType').value;
+var plate=document.getElementById('pgPlate').value||'—';
+var tin=document.getElementById('pgIn').value||'08:00';
+var tout=document.getElementById('pgOut').value||'10:00';
+var mins=toMin(tout)-toMin(tin);if(mins<=0)mins+=24*60;
+var hours=mins/60;var fee=calcFee(type,hours);
+vehicles.push({plate:plate,type:type,in:tin,out:tout,fee:fee,hours:hours});
+renderPG();runPG();
+document.getElementById('pgBadge').textContent='ADDED ✓';document.getElementById('pgBadge').className='pg-badge green';
+}
+function renderPG(){
+var body=document.getElementById('pgBody');
+if(vehicles.length===0){body.innerHTML='<tr><td colspan="5" style="color:var(--muted);">No vehicles yet — click Add Vehicle above.</td></tr>';}
+else{body.innerHTML=vehicles.map(function(v){return '<tr><td><b style="color:#fff;">'+v.plate+'</b></td><td>'+(v.type==='motor'?'Motor':'Mobil')+'</td><td>'+v.in+'</td><td>'+v.out+'</td><td>'+fmt(v.fee)+'</td></tr>';}).join('');}
+var total=vehicles.reduce(function(s,v){return s+v.fee;},0);
+document.getElementById('pgReport').innerHTML='Total vehicles today: <b style="color:#fff;">'+vehicles.length+'</b><br>Total cash (Cash Only): <b style="color:#fff;">'+fmt(total)+'</b><br>Active: '+vehicles.length+' • Exited: '+vehicles.length;
+}
+function resetPG(){vehicles=[];renderPG();runPG();document.getElementById('pgBadge').textContent='ACTIVE';document.getElementById('pgBadge').className='pg-badge yellow';}
+runPG();renderPG();
+</script>
+</body>
+</html>
